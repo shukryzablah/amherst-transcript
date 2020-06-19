@@ -1,3 +1,5 @@
+(in-package #:amherst-utils)
+
 (defvar *transcript* "
                    FALL 2016                             
   CHEM 151    Introductory Chemistry       B+             
@@ -54,8 +56,6 @@
   FREN 208    French Conversation          A        
 ")
 
-(ql:quickload "str")
-
 (defun semester-line-p (line)
   (or (str:containsp "SPRING" line) (str:containsp "FALL" line)))
 
@@ -63,7 +63,7 @@
   (str:blankp line))
 
 (defun class-line-p (line)
-  (and (not (semester-header-p line))
+  (and (not (semester-line-p line))
        (not (empty-line-p line))))
 
 (defun parse-semester-line (line)
