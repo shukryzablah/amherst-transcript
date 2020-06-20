@@ -4,5 +4,7 @@
   :author "Shukry Zablah <shukryzablah@gmail.com>"
   :licence "MIT"
   :depends-on ("str")
+  :serial t
   :components ((:file "package")
-	       (:file "parser")))
+	       (:file "transcript-parser")
+	       (:file "example")))
