@@ -7,4 +7,5 @@
   :serial t
   :components ((:file "package")
 	       (:file "transcript-parser")
+	       (:file "transcript-gpa")
 	       (:file "example")))

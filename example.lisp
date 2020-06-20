@@ -56,4 +56,6 @@
   FREN 208    French Conversation          A        
 ")
 
-(amherst-utils:parse-transcript *example-transcript*)
+(parse-transcript *example-transcript*)
+
+(calculate-transcript-gpa *example-transcript*)

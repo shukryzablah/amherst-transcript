@@ -9,4 +9,5 @@
 		#:words
 		#:unwords
 		#:lines)
-  (:export #:parse-transcript))
+  (:export #:parse-transcript
+	   #:calculate-transcript-gpa))
