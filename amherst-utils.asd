@@ -5,7 +5,7 @@
   :licence "MIT"
   :depends-on ("str")
   :serial t
-  :components ((:file "package")
+  :components ((:file "packages")
 	       (:file "transcript-parser")
 	       (:file "transcript-gpa")
 	       (:file "example")))

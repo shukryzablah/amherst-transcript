@@ -8,6 +8,7 @@
 		#:trim
 		#:words
 		#:unwords
-		#:lines)
+		#:lines
+		#:digitp)
   (:export #:parse-transcript
 	   #:calculate-transcript-gpa))
