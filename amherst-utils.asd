@@ -3,9 +3,12 @@
   :version "0.1.0"
   :author "Shukry Zablah <shukryzablah@gmail.com>"
   :licence "MIT"
-  :depends-on ("str")
+  :depends-on ("str" "hunchentoot" "cl-who")
   :serial t
   :components ((:file "packages")
-	       (:file "transcript-parser")
-	       (:file "transcript-gpa")
-	       (:file "example")))
+	       (:module "transcript"
+		:serial t
+		:components ((:file "parser")
+			     (:file "gpa-calculator")
+			     (:file "example")
+			     (:file "server")))))

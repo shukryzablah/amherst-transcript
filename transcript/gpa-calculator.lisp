@@ -47,7 +47,8 @@
   (loop for grade in grades summing (cdr grade)))
 
 (defun calculate-transcript-gpa (transcript)
-  (let ((grades (convert-grades
+  (when transcript
+    (let ((grades (convert-grades
 		  (extract-grades-with-weights transcript))))
     (/ (reduce #'+ (calculate-contributions grades))
-       (count-courses grades))))
+       (count-courses grades)))))
