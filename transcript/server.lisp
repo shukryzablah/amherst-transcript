@@ -4,8 +4,8 @@
 
 (hunchentoot:define-easy-handler
     (easy-demo :uri "/gpa-calculator"
-	       :default-request-type :post)
-    (transcript)
+	       :default-request-type :post)  
+  (transcript)
   (with-html-output-to-string (*standard-output* nil :prologue t)
     (:html
      (:head (:title "Amherst College GPA Calculator"))
@@ -15,7 +15,7 @@
 	     (:div (:input :type "submit"))
 	     (:textarea :name "transcript"
 			:rows 25 :cols 50
-			(str (or transcript "Paste your transcript"))))
+			(str (or transcript *example-transcript*))))
       (:p "Your gpa is: " (fmt "~$" (calculate-transcript-gpa transcript)))))))
 
 (defun start-server ()
