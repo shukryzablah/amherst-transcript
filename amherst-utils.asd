@@ -3,7 +3,7 @@
   :version "0.1.0"
   :author "Shukry Zablah <shukryzablah@gmail.com>"
   :licence "MIT"
-  :depends-on ("str" "hunchentoot" "cl-who")
+  :depends-on ("str" "clack" "cl-who")
   :serial t
   :components ((:file "packages")
 	       (:module "transcript"
