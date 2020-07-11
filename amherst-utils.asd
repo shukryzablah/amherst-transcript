@@ -6,9 +6,9 @@
   :depends-on ("str" "clack" "cl-who")
   :serial t
   :components ((:file "packages")
-	       (:module "transcript"
-		:serial t
-		:components ((:file "parser")
-			     (:file "gpa-calculator")
-			     (:file "example")
-			     (:file "server")))))
+               (:module "src"
+                :serial t
+                :components ((:file "parser")
+                             (:file "gpa-calculator")
+                             (:file "example")
+                             (:file "server")))))
