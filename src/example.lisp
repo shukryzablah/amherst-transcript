@@ -1,4 +1,4 @@
-(in-package #:amherst-utils)
+(in-package #:amherst-transcript)
 
 (defvar *example-transcript* "
                    FALL 2016                             

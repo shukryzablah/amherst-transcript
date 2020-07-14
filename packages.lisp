@@ -1,6 +1,6 @@
 (in-package #:cl-user)
 
-(defpackage #:amherst-utils
+(defpackage #:amherst-transcript
   (:use #:common-lisp #:cl-who)
   (:import-from #:str
 		#:containsp
@@ -15,4 +15,6 @@
   ;; transcript/gpa-calculator.lisp
   (:export #:calculate-transcript-gpa)
   ;; transcript/server.lisp
-  (:export #:start-server))
+  (:export #:server-start
+           #:server-stop
+           #:server-restart))

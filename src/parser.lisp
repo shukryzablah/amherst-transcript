@@ -1,4 +1,4 @@
-(in-package #:amherst-utils)
+(in-package #:amherst-transcript)
 
 (defun semester-line-p (line)
   (or (str:containsp "SPRING" line) (str:containsp "FALL" line)))

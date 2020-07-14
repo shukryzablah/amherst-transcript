@@ -1,4 +1,4 @@
-(in-package #:amherst-utils)
+(in-package #:amherst-transcript)
 
 (defvar *equivalency-scale*
   '((A+ . 4.00)
