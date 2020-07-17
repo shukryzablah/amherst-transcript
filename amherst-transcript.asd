@@ -11,4 +11,4 @@
                 :components ((:file "parser")
                              (:file "gpa-calculator")
                              (:file "example")
-                             (:file "server")))))
+                             (:file "app")))))

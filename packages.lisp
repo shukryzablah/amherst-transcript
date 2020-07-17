@@ -14,7 +14,5 @@
   (:export #:parse-transcript)
   ;; transcript/gpa-calculator.lisp
   (:export #:calculate-transcript-gpa)
-  ;; transcript/server.lisp
-  (:export #:server-start
-           #:server-stop
-           #:server-restart))
+  ;; transcript/app.lisp
+  (:export #:app))

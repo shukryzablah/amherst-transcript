@@ -40,22 +40,3 @@
   (cond ((string= (getf environment :path-info) "/") (main-page environment))
         ((string= (getf environment :path-info) "/results") (results-page environment))
         (t (error-page))))
-
-(defparameter *server* nil "The running server, use server-* functions")
-
-(defun server-start ()
-  "Start the server, saving a reference to it."
-  (unless *server*
-    (setf *server* (clack:clackup #'app :server :woo))))
-
-
-(defun server-stop ()
-  "Stop the server, clearing the reference to it."
-  (when *server*
-    (clack:stop *server*)
-    (setf *server* nil)))
-
-(defun server-restart ()
-  "Stop the server and start it again."
-  (server-stop)
-  (server-start))
