@@ -12,7 +12,7 @@ RUN ros install clack
 RUN ros install "amherst-transcript"
 
 # Start the server.
-ENV CLACK_PORT=5000
+ENV CLACK_PORT=8080
 EXPOSE ${CLACK_PORT}
 ENTRYPOINT ros exec clackup \
     --system "amherst-transcript" \
