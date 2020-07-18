@@ -12,11 +12,11 @@ RUN ros install clack
 RUN ros install "amherst-transcript"
 
 # Start the server.
-ENV CLACK_PORT=8080
-EXPOSE ${CLACK_PORT}
+ENV PORT=8080
+EXPOSE ${PORT}
 ENTRYPOINT ros exec clackup \
     --system "amherst-transcript" \
     --address 0.0.0.0 \
     --server :woo \
-    --port ${CLACK_PORT} \
+    --port ${PORT} \
     src/app.lisp
