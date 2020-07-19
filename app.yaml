@@ -1,2 +1,4 @@
+# This is a configuration file for usage of Google App Engine.
+# runtime:custom, env:flex are the two necessary options.
 runtime: custom
 env: flex
