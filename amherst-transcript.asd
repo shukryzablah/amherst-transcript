@@ -6,8 +6,11 @@
   :depends-on ("alexandria" "str" "clack" "lack" "http-body" "woo" "cl-who")
   :in-order-to ((asdf:test-op (asdf:test-op "amherst-transcript-tests")))
   :serial t
-  :pathname "src/"
-  :components ((:file "parser")
-               (:file "gpa-calculator")
-               (:file "app")
-               (:file "amherst-transcript")))
+  :components ((:module "src"
+                :serial t
+                :components
+                ((:file "parser")
+                 (:file "gpa-calculator")
+                 (:file "app")
+                 (:file "amherst-transcript")))
+               (:static-file "example-transcript.txt")))

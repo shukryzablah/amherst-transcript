@@ -19,7 +19,7 @@
                                   (:div (:input :type "submit"))
                                   (:textarea :name "transcript"
                                              :rows 25 :cols 50
-                                             (cl-who:str (uiop:read-file-string "../example-transcript.txt")))))))))
+                                             (cl-who:str (uiop:read-file-string (asdf:system-relative-pathname "amherst-transcript" "example-transcript.txt"))))))))))
     `(200 (:content-type "text/html; charset=UTF-8") (,response-body))))
 
 (defun results-page (environment)
