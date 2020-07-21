@@ -7,6 +7,5 @@
   :pathname "tests/"
   :serial t
   :components ((:file "packages")
-               (:file "suites")
                (:file "app")
                (:file "parser")))

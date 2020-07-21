@@ -1,6 +1,13 @@
-(in-package #:amherst-transcript)
+(in-package #:cl-user)
+(defpackage #:amherst-transcript.app
+  (:use #:cl)
+  (:import-from #:amherst-transcript.gpa-calculator
+                #:calculate-gpa)
+  (:export #:app))
+(in-package #:amherst-transcript.app)
 
 (defun main-page (environment)
+  (declare (ignore environment))
   (let ((response-body (cl-who:with-html-output-to-string (s nil :prologue t :indent t)
                          (:html
                           (:head
@@ -12,17 +19,17 @@
                                   (:div (:input :type "submit"))
                                   (:textarea :name "transcript"
                                              :rows 25 :cols 50
-                                             (cl-who:str *example-transcript*))))))))
+                                             (cl-who:str (uiop:read-file-string "../example-transcript.txt")))))))))
     `(200 (:content-type "text/html; charset=UTF-8") (,response-body))))
 
 (defun results-page (environment)
   "Endpoint calculating the gpa for a given request environment."
-  (let* ((gpa (calculate-transcript-gpa (cdr (assoc "transcript"
-                                                    (http-body:parse
-                                                     (getf environment :content-type)
-                                                     (getf environment :content-length)
-                                                     (getf environment :raw-body))
-                                                    :test #'string=))))
+  (let* ((gpa (calculate-gpa (cdr (assoc "transcript"
+                                         (http-body:parse
+                                          (getf environment :content-type)
+                                          (getf environment :content-length)
+                                          (getf environment :raw-body))
+                                         :test #'string=))))
          (response-body (cl-who:with-html-output-to-string (s nil :prologue t :indent t)
                           (:html
                            (:head

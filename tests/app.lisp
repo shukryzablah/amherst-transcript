@@ -1,6 +1,9 @@
 (in-package #:amherst-transcript-tests)
+(def-suite app
+  :description "Testing the application."
+  :in master)
 (in-suite app)
 
-(test placeholder2
-  "A placeholder."
-  (is (= 5 4)))
+(test placeholder
+  "Placeholder test."
+  (is (= 5 5)))

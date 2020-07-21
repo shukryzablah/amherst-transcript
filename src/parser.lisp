@@ -1,41 +1,77 @@
-(in-package #:amherst-transcript)
+(in-package #:cl-user)
+(defpackage #:amherst-transcript.parser
+  (:use #:cl)
+  (:import-from #:alexandria
+                #:lastcar)
+  (:export #:parse-transcript
+           #:grade
+           #:credits))
+(in-package #:amherst-transcript.parser)
+
+(defclass amherst-course ()
+  ((name
+    :initarg :name
+    :documentation "The name of the course.")
+   (department
+    :initarg :department
+    :documentation "The department the course is listed under.")
+   (semester
+    :initarg :semester
+    :documentation "The semester the course was taken.")
+   (number
+    :initarg :number
+    :documentation "The course number")
+   (grade
+    :initarg :grade
+    :accessor grade
+    :documentation "The final letter grade.")
+   (credits
+    :initarg :credits
+    :accessor credits
+    :documentation "The number of credits the course counts for."))
+  (:documentation "A university course from an Amherst College."))
+
+(defmethod print-object ((course amherst-course) stream)
+  (print-unreadable-object (course stream :type t)
+    (with-slots (name number department semester) course
+        (format stream "~A, ~A~A, ~A" name department number semester))))
+
+(defmethod initialize-instance :after ((course amherst-course) &key)
+  "From the course number we can calculate course credits."
+  (let ((number (slot-value course 'number)))
+    (setf (slot-value course 'credits)
+          (cond ((str:containsp "H" number) 2)
+                ((str:containsp "D" number) 8)
+                (t 4)))))
+
+(defun parse-course-line (line semester)
+  (let ((tokens (str:words line)))
+    (destructuring-bind (department number &rest name) (butlast tokens)
+      (let ((grade (lastcar tokens)))
+        (make-instance 'amherst-course :name (str:unwords name)
+                                       :department department
+                                       :number number
+                                       :semester semester
+                                       :grade grade)))))
 
 (defun semester-line-p (line)
+  "Test if line declares semester."
   (or (str:containsp "SPRING" line) (str:containsp "FALL" line)))
 
 (defun empty-line-p (line)
+  "Test if line is empty."
   (str:blankp line))
 
-(defun class-line-p (line)
+(defun course-line-p (line)
+  "Test if line represents a course."
   (and (not (semester-line-p line))
        (not (empty-line-p line))))
 
-(defun parse-semester-line (line)
-  (str:trim line))
-
-(defun parse-class-line (line)
-  (labels ((tokenize (line)
-	     (str:words (str:trim line))))
-    (destructuring-bind (dept num &rest name+grade) (tokenize line)
-      (destructuring-bind (grade &rest reverse-name) (reverse name+grade)
-	(list :department dept
-	      :number num
-	      :name (str:unwords (reverse reverse-name))
-	      :grade grade)))))
-
-(defun parse-transcript-line (line)
-  (cond ((semester-line-p line) (parse-semester-line line))
-	((class-line-p line) (parse-class-line line))
-	(t (format t "Line isn't a semester line or class line: ~a" line))))
-
-(defun parse-transcript (transcript)
-  (let ((semester)
-	(parsed)
-	(result))
-    (loop for line in (str:lines transcript) unless (empty-line-p line) do
-      (progn (setq parsed (parse-transcript-line line))
-	     (if (semester-line-p parsed)
-		 (setq semester parsed)
-		 (progn (setf (getf parsed :semester) semester)
-			(push parsed result)))))
-    (reverse result)))
+(defun parse-transcript (transcript-text)
+  "Parse a transcript text into a list of course objects."
+  (loop for line in (str:lines transcript-text) with semester
+        if (semester-line-p line)
+          do (setq semester (str:trim line))
+        else
+          if (course-line-p line)
+            collect (parse-course-line line semester)))
