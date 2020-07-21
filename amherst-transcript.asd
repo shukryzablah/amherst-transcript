@@ -3,7 +3,14 @@
   :version "0.3.0"
   :author "Shukry Zablah <shukryzablah@gmail.com>"
   :licence "MIT"
-  :depends-on ("alexandria" "str" "clack" "lack" "http-body" "woo" "cl-who")
+  :depends-on ("alexandria"
+               "str"
+               "clack"
+               "lass"
+               "lack"
+               "http-body"
+               "woo"
+               "cl-who")
   :in-order-to ((asdf:test-op (asdf:test-op "amherst-transcript-tests")))
   :serial t
   :components ((:module "src"
