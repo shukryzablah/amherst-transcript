@@ -1,0 +1,5 @@
+ ; -*- mode: lisp;-*-
+
+(:let ((color "#0088EE"))
+  (div
+   :background #(color)))

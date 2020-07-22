@@ -6,20 +6,28 @@
   (:export #:app))
 (in-package #:amherst-transcript.app)
 
+(defmacro with-page ((&key title) &body body)
+  `(cl-who:with-html-output-to-string (s nil :prologue t :indent t)
+     (:html
+      (:head
+       (:meta :charset "UTF-8")
+       (:link :rel "stylesheet" :type "text/css" :href "/static/styles.css")
+       (:title ,title))
+      (:body ,@body))))
+
 (defun main-page (environment)
   (declare (ignore environment))
-  (let ((response-body (cl-who:with-html-output-to-string (s nil :prologue t :indent t)
-                         (:html
-                          (:head
-                           (:meta :charset "UTF-8")
-                           (:title "Amherst College GPA Calculator"))
-                          (:body
-                           (:h2 "Paste your transcript below:")
-                           (:form :method :post :action "/results"
-                                  (:div (:input :type "submit"))
-                                  (:textarea :name "transcript"
-                                             :rows 25 :cols 50
-                                             (cl-who:str (uiop:read-file-string (asdf:system-relative-pathname "amherst-transcript" "example-transcript.txt"))))))))))
+  (let* ((example-transcript (uiop:read-file-string
+                              (asdf:system-relative-pathname "amherst-transcript"
+                                                             "example-transcript.txt")))
+         (response-body (with-page (:title "Amherst College GPA Calculator")
+                          (:header
+                           (:h1 "Paste your transcript below:"))
+                          (:form :method :post :action "/results"
+                                 (:div (:input :type "submit"))
+                                 (:textarea :name "transcript"
+                                            :rows 25 :cols 50
+                                            (cl-who:str example-transcript))))))
     `(200 (:content-type "text/html; charset=UTF-8") (,response-body))))
 
 (defun results-page (environment)
@@ -44,6 +52,12 @@
 
 (defun app (environment)
   "The application returns a lambda list defining a response for a request."
-  (cond ((string= (getf environment :path-info) "/") (main-page environment))
-        ((string= (getf environment :path-info) "/results") (results-page environment))
-        (t (error-page))))
+  (let ((path (getf environment :path-info)))
+    (cond ((string= path "/") (main-page environment))
+          ((string= path "/results") (results-page environment))
+          (t (error-page)))))
+
+(defun app-with-middlewares ()
+  (lack:builder
+   (:static :path "/static/" :root ".")
+   #'app))

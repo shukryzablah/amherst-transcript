@@ -19,5 +19,6 @@
                 ((:file "parser")
                  (:file "gpa-calculator")
                  (:file "app")
-                 (:file "amherst-transcript")))
+                 (:file "amherst-transcript")
+                 (:lass-file "styles")))
                (:static-file "example-transcript.txt")))
