@@ -1,6 +1,6 @@
 (defsystem "amherst-transcript"
   :description "Tool for Amherst students to understand their transcript."
-  :version "0.3.0"
+  :version "0.4.0"
   :author "Shukry Zablah <shukryzablah@gmail.com>"
   :licence "MIT"
   :depends-on ("alexandria"
