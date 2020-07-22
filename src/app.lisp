@@ -11,6 +11,7 @@
      (:html
       (:head
        (:meta :charset "UTF-8")
+       (:meta :name "viewport" :content "width=device-width, initial-scale=1")
        (:link :rel "stylesheet" :type "text/css" :href "/static/styles.css")
        (:title ,title))
       (:body ,@body))))
@@ -21,13 +22,15 @@
                               (asdf:system-relative-pathname "amherst-transcript"
                                                              "example-transcript.txt")))
          (response-body (with-page (:title "Amherst College GPA Calculator")
-                          (:header
-                           (:h1 "Paste your transcript below:"))
-                          (:form :method :post :action "/results"
-                                 (:div (:input :type "submit"))
-                                 (:textarea :name "transcript"
-                                            :rows 25 :cols 50
-                                            (cl-who:str example-transcript))))))
+                          (:main
+                           (:header
+                            (:h1 "Transcript -> GPA")
+                            (:p "Paste your transcript (from ACDATA) below to calculate your gpa."))
+                           (:form :method :post :action "/results"
+                                  (:textarea :name "transcript"
+                                             :rows 25 :cols 50
+                                             (cl-who:str example-transcript))
+                                  (:input :type "submit"))))))
     `(200 (:content-type "text/html; charset=UTF-8") (,response-body))))
 
 (defun results-page (environment)
@@ -38,13 +41,8 @@
                                           (getf environment :content-length)
                                           (getf environment :raw-body))
                                          :test #'string=))))
-         (response-body (cl-who:with-html-output-to-string (s nil :prologue t :indent t)
-                          (:html
-                           (:head
-                            (:meta :charset "UTF-8")
-                            (:title "Amherst College GPA Calulator"))
-                           (:body
-                            (:p "Your gpa is: " (cl-who:fmt "~$" gpa)))))))
+         (response-body (with-page (:title "Amherst College GPA Calculator")
+                          (:p "Your gpa is: " (cl-who:fmt "~$" gpa)))))
     `(200 (:content-type "text/html; charset=UTF-8") (,response-body))))
 
 (defun error-page ()
@@ -57,10 +55,10 @@
           ((string= path "/results") (results-page environment))
           (t (error-page)))))
 
-(defun app-with-middlewares ()
+(defun wrap-app-with-middlewares (app)
   (lack:builder
    (:static :path "/static/" :root (asdf:system-relative-pathname "amherst-transcript" "src/"))
-   #'app))
+   app))
 
 ; clack roswell script will use the result of this form (which is an app)
-(app-with-middlewares)
+(wrap-app-with-middlewares #'app)
