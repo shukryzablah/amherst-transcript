@@ -1,4 +1,4 @@
-(asdf:defsystem "amherst-transcript"
+(defsystem "amherst-transcript"
   :description "Tool for Amherst students to understand their transcript."
   :version "0.3.0"
   :author "Shukry Zablah <shukryzablah@gmail.com>"
@@ -11,7 +11,7 @@
                "http-body"
                "woo"
                "cl-who")
-  :in-order-to ((asdf:test-op (asdf:test-op "amherst-transcript-tests")))
+  :in-order-to ((test-op (test-op "amherst-transcript-tests")))
   :serial t
   :components ((:module "src"
                 :serial t
@@ -20,5 +20,5 @@
                  (:file "gpa-calculator")
                  (:file "app")
                  (:file "amherst-transcript")
-                 (:lass-file "styles")))
+                 (:static-file "styles.css")))
                (:static-file "example-transcript.txt")))

@@ -61,3 +61,6 @@
   (lack:builder
    (:static :path "/static/" :root ".")
    #'app))
+
+; clack roswell script will use the result of this form (which is an app)
+(app-with-middlewares)
