@@ -59,7 +59,7 @@
 
 (defun app-with-middlewares ()
   (lack:builder
-   (:static :path "/static/" :root ".")
+   (:static :path "/static/" :root (asdf:system-relative-pathname "amherst-transcript" "src/"))
    #'app))
 
 ; clack roswell script will use the result of this form (which is an app)
