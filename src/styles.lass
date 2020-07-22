@@ -1,0 +1,13 @@
+ ; -*- mode: lisp;-*-
+
+(main
+ :display grid
+ :place-items center
+ (header
+  :display grid
+  :place-items center)
+ (form
+  :display grid
+  :place-items center
+  (textarea
+   :width 95%)))
