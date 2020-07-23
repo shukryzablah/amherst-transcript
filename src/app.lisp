@@ -3,7 +3,7 @@
   (:use #:cl)
   (:import-from #:amherst-transcript.gpa-calculator
                 #:calculate-gpa)
-  (:export #:app))
+  (:export #:*app*))
 (in-package #:amherst-transcript.app)
 
 (defmacro with-page ((&key title) &body body)
@@ -16,8 +16,8 @@
        (:title ,title))
       (:body ,@body))))
 
-(defun main-page (environment)
-  (declare (ignore environment))
+(defun main-page (request)
+  (declare (ignore request))
   (let* ((example-transcript (uiop:read-file-string
                               (asdf:system-relative-pathname "amherst-transcript"
                                                              "example-transcript.txt")))
@@ -33,13 +33,10 @@
                                   (:input :type "submit"))))))
     `(200 (:content-type "text/html; charset=UTF-8") (,response-body))))
 
-(defun results-page (environment)
+(defun results-page (request)
   "Endpoint calculating the gpa for a given request environment."
   (let* ((gpa (calculate-gpa (cdr (assoc "transcript"
-                                         (http-body:parse
-                                          (getf environment :content-type)
-                                          (getf environment :content-length)
-                                          (getf environment :raw-body))
+                                         (lack.request:request-body-parameters request)
                                          :test #'string=))))
          (response-body (with-page (:title "Amherst College GPA Calculator")
                           (:main
@@ -53,15 +50,17 @@
 
 (defun app (environment)
   "The application returns a lambda list defining a response for a request."
-  (let ((path (getf environment :path-info)))
-    (cond ((string= path "/") (main-page environment))
-          ((string= path "/results") (results-page environment))
+  (let* ((request (lack.request:make-request environment))
+         (path (lack.request:request-path-info request)))
+    (cond ((string= path "/") (main-page request))
+          ((string= path "/results") (results-page request))
           (t (error-page)))))
 
-(defun wrap-app-with-middlewares (app)
+(defparameter *app*
   (lack:builder
-   (:static :path "/static/" :root (asdf:system-relative-pathname "amherst-transcript" "src/"))
-   app))
+   (:static :path "/static/"
+            :root (asdf:system-relative-pathname "amherst-transcript" "src/"))
+   #'app))
 
 ; clack roswell script will use the result of this form (which is an app)
-(wrap-app-with-middlewares #'app)
+*app*

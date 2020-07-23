@@ -4,9 +4,9 @@
   (:import-from #:amherst-transcript.parser
                 #:parse-transcript)
   (:import-from #:amherst-transcript.app
-                #:app)
+                #:*app*)
   (:import-from #:amherst-transcript.gpa-calculator
                 #:calculate-gpa)
   (:export #:parse-transcript
-           #:app))
+           #:*app*))
 (in-package #:amherst-transcript)
