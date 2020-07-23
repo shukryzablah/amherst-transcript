@@ -31,7 +31,7 @@
                                              :name "transcript"
                                              :rows 25 :cols 50
                                              (cl-who:str example-transcript))
-                                  (:input :type "submit"))))))
+                                  (:input :type "submit" :value "Submit"))))))
     `(200 (:content-type "text/html; charset=UTF-8") (,response-body))))
 
 (defun results-page (request)
