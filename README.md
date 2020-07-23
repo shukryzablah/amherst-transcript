@@ -2,4 +2,4 @@
 
 Tool for Amherst College students to understand their transcript.
 
-Link: https://amherst-transcript.uc.r.appspot.com/
+Link: https://amherst-transcript.shukryzablah.com/
