@@ -24,10 +24,11 @@
          (response-body (with-page (:title "Amherst College GPA Calculator")
                           (:main
                            (:header
-                            (:h1 "Transcript -> GPA")
-                            (:p "Paste your transcript (from ACDATA) below to calculate your gpa."))
+                            (:h1 "Transcript -> GPA"))
                            (:form :method :post :action "/results"
-                                  (:textarea :name "transcript"
+                                  (:label :for "transcript" "Paste your transcript (from ACDATA) below to calculate your gpa.")
+                                  (:textarea :id "transcript"
+                                             :name "transcript"
                                              :rows 25 :cols 50
                                              (cl-who:str example-transcript))
                                   (:input :type "submit"))))))
