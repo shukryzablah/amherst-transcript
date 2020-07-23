@@ -10,4 +10,6 @@
   :display grid
   :place-items center
   (textarea
-   :width 95%)))
+   :width 95%))
+ (|p#gpa|
+  :font-size xx-large))

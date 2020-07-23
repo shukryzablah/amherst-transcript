@@ -42,7 +42,10 @@
                                           (getf environment :raw-body))
                                          :test #'string=))))
          (response-body (with-page (:title "Amherst College GPA Calculator")
-                          (:p "Your gpa is: " (cl-who:fmt "~$" gpa)))))
+                          (:main
+                           (:header
+                            (:h1 "Transcript -> GPA"))
+                           (:p :id "gpa" "Your gpa is: " (cl-who:fmt "~$" gpa))))))
     `(200 (:content-type "text/html; charset=UTF-8") (,response-body))))
 
 (defun error-page ()
